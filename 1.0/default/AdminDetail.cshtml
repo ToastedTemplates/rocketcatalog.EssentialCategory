@@ -64,10 +64,10 @@
 
                 <div class='w3-row'>
                     <div class="w3-quarter w3-padding">
-                        @CheckBox(info, "genxml/checkbox/hidden", "&nbsp;" + ResourceKey("RC.hidden"), " class='w3-check' ")
+                        @CheckBox(info, articleData.HiddenXPath, "&nbsp;" + ResourceKey("RC.hidden"), " class='w3-check' ")
                     </div>
                     <div class="w3-quarter w3-padding">
-                        @CheckBox(info, "genxml/lang/genxml/checkbox/hidden", "&nbsp;" + ResourceKey("RC.hidden") + "&nbsp;" + EditFlag(sessionParams), " class='w3-check' ")
+                        @CheckBox(info, articleData.HiddenByCultureXPath, "&nbsp;" + ResourceKey("RC.hidden") + "&nbsp;" + EditFlag(sessionParams), " class='w3-check' ")
                     </div>
                 </div>
 
