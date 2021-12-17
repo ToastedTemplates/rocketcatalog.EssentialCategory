@@ -52,7 +52,7 @@
                         @TextBox(info, articleData.NameXPath, " class='w3-input w3-border' autocomplete='off' ", "", true, 0)
                     </div>
                     <div class="w3-col m1 w3-padding">
-                        <label>@ResourceKey("Theme.price")</label>                        
+                        <label>@ResourceKey("Theme.price")</label>
                         @TextBox(info, "genxml/textbox/price", " class='w3-input w3-border w3-right-align' autocomplete='off' ", "", false, 0)
                     </div>
                 </div>
@@ -60,6 +60,15 @@
                 <div class=" w3-row w3-padding">
                     <label>@ResourceKey("RC.summary")</label>&nbsp;@EditFlag(sessionParams)
                     @TextArea(info, articleData.SummaryXPath, " class='w3-input w3-border' rows='8' autocomplete='off' ", "", true, 0)
+                </div>
+
+                <div class='w3-row'>
+                    <div class="w3-quarter w3-padding">
+                        @CheckBox(info, "genxml/checkbox/hidden", "&nbsp;" + ResourceKey("RC.hidden"), " class='w3-check' ")
+                    </div>
+                    <div class="w3-quarter w3-padding">
+                        @CheckBox(info, "genxml/lang/genxml/checkbox/hidden", "&nbsp;" + ResourceKey("RC.hidden") + "&nbsp;" + EditFlag(sessionParams), " class='w3-check' ")
+                    </div>
                 </div>
 
                 <div class="w3-padding">

@@ -9,24 +9,33 @@
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketCatalog/App_LocalResources/")
 
-@{ var sessionParams = (SessionParams)Model.SessionParamsData;
-                var articleDataList = (ArticleLimpetList)Model.GetDataObject("articlelist");
-                var portalCatalog = (PortalCatalogLimpet)Model.GetDataObject("portalcatalog");
-                var remoteModule = (RemoteModule)Model.GetDataObject("remotemodule");
-                var portalData = (PortalLimpet)Model.GetDataObject("portaldata");
-                var categoryList = (CategoryLimpetList)Model.GetDataObject("categorylist");
-                var appTheme = (AppThemeLimpet)Model.GetDataObject("apptheme");
-                var appThemeDefault = (AppThemeLimpet)Model.GetDataObject("appthemedefault");
-                var categoryData = new CategoryLimpet(portalCatalog.PortalId, articleDataList.CategoryId, sessionParams.CultureCode);
+@{
+    var sessionParams = (SessionParams)Model.SessionParamsData;
+    var articleDataList = (ArticleLimpetList)Model.GetDataObject("articlelist");
+    var portalCatalog = (PortalCatalogLimpet)Model.GetDataObject("portalcatalog");
+    var remoteModule = (RemoteModule)Model.GetDataObject("remotemodule");
+    var portalData = (PortalLimpet)Model.GetDataObject("portaldata");
+    var categoryList = (CategoryLimpetList)Model.GetDataObject("categorylist");
+    var appTheme = (AppThemeLimpet)Model.GetDataObject("apptheme");
+    var appThemeDefault = (AppThemeLimpet)Model.GetDataObject("appthemedefault");
+    var categoryData = new CategoryLimpet(portalCatalog.PortalId, articleDataList.CategoryId, sessionParams.CultureCode);
+}
 
-    @AddProcessData("resourcepath", "/DesktopModules/RocketThemes/" + appTheme.AppThemeFolder + "/" + appTheme.AppVersionFolder + "/resx/") }
+@AddProcessData("resourcepath", appTheme.AppThemeVersionFolderRel + "/resx/")
 
 <div class="productlistflex">
 
     <div class="productlist">
 
         <h1>
-            <span>@categoryData.Name</span>
+            @if (sessionParams.GetInt("catid") == 0)
+            {
+                <span>@articleDataList.Dashboard.Title&nbsp;</span>
+            }
+            else
+            {
+                <span>@categoryData.Name&nbsp;</span>
+            }
         </h1>
 
         @RenderTemplate("SearchBanner.cshtml", appTheme, Model, true)
@@ -37,37 +46,42 @@
 
                 @foreach (ArticleLimpet articleData in articleDataList.GetArticleList())
                 {
-                    var imgRelPath = "/DesktopModules/DNNrocket/api/images/noimage2.png";
-                    var articleImage = articleData.GetImage(0);
-                    if (articleImage != null)
+                    if (!articleData.IsHidden)
                     {
-                        imgRelPath = articleImage.RelPath;
+
+                        var imgRelPath = "/DesktopModules/DNNrocket/api/images/noimage2.png";
+                        var articleImage = articleData.GetImage(0);
+                        if (articleImage != null)
+                        {
+                            imgRelPath = articleImage.RelPath;
+                        }
+                        var articleListUrl = articleData.ArticleDetailUrl(sessionParams);
+
+                        <div class="product">
+
+                            <div class="productimg">
+                                <img src="@ThumbnailImageWebsiteDomainUrl(portalData.EngineUrlWithProtocol, imgRelPath, 480, 480)" alt="@articleData.Name" />
+                                <!-- Rollover -->
+                                <div class="productrollover">
+                                    <div class="productrollover-content">
+                                        <div class="productrollover-actions">
+                                            <a href="@articleListUrl">@ResourceKey("theme.details", sessionParams.CultureCode)</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="productcontent">
+                                <h3><a href="@articleListUrl">@articleData.Name</a></h3>
+                                <div class="w3-row">
+                                    <div class="w3-padding">
+                                        <div class="productprice">@articleData.Info.GetXmlPropertyDecimal("genxml/textbox/price").ToString("C2", CultureInfo.CurrentCulture)</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     }
-                    var articleListUrl = articleData.ArticleDetailUrl(sessionParams);
-
-    <div class="product">
-
-        <div class="productimg">
-            <img src="@ThumbnailImageWebsiteDomainUrl(portalData.EngineUrlWithProtocol, imgRelPath, 480, 480)" alt="@articleData.Name" />
-            <!-- Rollover -->
-            <div class="productrollover">
-                <div class="productrollover-content">
-                    <div class="productrollover-actions">
-                        <a href="@articleListUrl">@ResourceKey("theme.details", sessionParams.CultureCode)</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="productcontent">
-            <h3><a href="@articleListUrl">@articleData.Name</a></h3>
-            <div class="w3-row">
-                <div class="w3-padding">
-                    <div class="productprice">@articleData.Info.GetXmlPropertyDecimal("genxml/textbox/price").ToString("C2", CultureInfo.CurrentCulture)</div>
-                </div>
-            </div>
-        </div>
-
-    </div>}
+                }
 
             </div>
 
