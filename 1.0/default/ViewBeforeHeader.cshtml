@@ -1,4 +1,4 @@
-﻿@inherits RocketCatalog.Components.RocketCatalogTokens<Simplisity.SimplisityRazor>
+﻿@inherits RocketEcommerce.Components.RocketEcommerceTokens<Simplisity.SimplisityRazor>
 @using Simplisity;
 @using DNNrocketAPI.Components;
 
@@ -6,4 +6,3 @@
     var sessionParams = (SessionParams)Model.SessionParamsData;
 }
 <link rel="stylesheet" href="@(sessionParams.EngineURL)@DNNrocketUtils.AppendFileModifiedDate("/DesktopModules/DNNrocket/css/w3.css")">
-

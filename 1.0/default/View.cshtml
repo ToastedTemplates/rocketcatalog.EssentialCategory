@@ -1,13 +1,13 @@
-﻿@inherits RocketCatalog.Components.RocketCatalogTokens<Simplisity.SimplisityRazor>
-@using RocketCatalog.Components;
+﻿@inherits RocketEcommerce.Components.RocketEcommerceTokens<Simplisity.SimplisityRazor>
+@using RocketEcommerce.Components;
 @using DNNrocketAPI.Components;
 
 <!-- !PAGE CONTENT! -->
 <div id="ecommerce-tag" class="ecommerce-container">
     @{
         var appTheme = (AppThemeLimpet)Model.GetDataObject("apptheme");
-        var articleData = (ArticleLimpet)Model.GetDataObject("articledata");
-        if (articleData != null)
+        var productData = (ProductLimpet)Model.GetDataObject("productdata");
+        if (productData != null)
         {
             @RenderTemplate("ProductDetail.cshtml", appTheme, Model, true)
         }
